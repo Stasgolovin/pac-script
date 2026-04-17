@@ -24,14 +24,21 @@ URL: `https://bot.curka.ru/proxy.pac`
 - Google Gemini / AI Studio
 - Cursor AI
 - Requesty
-- GitHub + CDN
+- Perplexity
+- HuggingFace
+- Midjourney
+- Stability AI
+- GitHub + GitLab + CDN
 - npmjs / PyPI
-- Microsoft Copilot
+- Microsoft Copilot / Azure
 - Google сервисы
+- Netflix
+- Docker
+- Cloudflare
 - 2ip.ru
 
 Всё остальное — напрямую (DIRECT).
 
 ## Версия
 
-2.2
+2.3
