@@ -1,8 +1,7 @@
 // =============================================================================
 // PAC-скрипт (Proxy Auto-Configuration)
-// Версия: 2.2
+// Версия: 2.3
 // Прокси: 89.125.213.6:3128
-// Обновлён с учётом российских IP-блокировок (Роскомнадзор)
 // =============================================================================
 
 function FindProxyForURL(url, host) {
@@ -11,7 +10,7 @@ function FindProxyForURL(url, host) {
   host = host.toLowerCase();
 
   // =========================================================================
-  // 1. ЛОКАЛЬНЫЕ АДРЕСА — всегда напрямую, без прокси
+  // 1. ЛОКАЛЬНЫЕ АДРЕСА — всегда напрямую
   // =========================================================================
 
   if (
@@ -30,7 +29,7 @@ function FindProxyForURL(url, host) {
   }
 
   // =========================================================================
-  // 2. TELEGRAM — IP-диапазоны (блокируется по IP, не по домену)
+  // 2. TELEGRAM — IP + домены
   // =========================================================================
 
   var resolvedIp = dnsResolve(host);
@@ -45,7 +44,6 @@ function FindProxyForURL(url, host) {
     if (isInNet(resolvedIp, "67.198.55.0", "255.255.255.0")) return proxy;
   }
 
-  // Telegram домены
   if (
     dnsDomainIs(host, ".telegram.org") || host === "telegram.org" ||
     dnsDomainIs(host, ".t.me") || host === "t.me" ||
@@ -112,13 +110,11 @@ function FindProxyForURL(url, host) {
   }
 
   // Requesty
-  if (
-    dnsDomainIs(host, ".requesty.ai") || host === "requesty.ai"
-  ) {
+  if (dnsDomainIs(host, ".requesty.ai") || host === "requesty.ai") {
     return proxy;
   }
 
-  // Cursor AI
+  // Cursor
   if (
     dnsDomainIs(host, ".cursor.sh") || host === "cursor.sh" ||
     dnsDomainIs(host, ".cursor.com") || host === "cursor.com"
@@ -126,8 +122,28 @@ function FindProxyForURL(url, host) {
     return proxy;
   }
 
+  // Perplexity
+  if (dnsDomainIs(host, ".perplexity.ai") || host === "perplexity.ai") {
+    return proxy;
+  }
+
+  // HuggingFace
+  if (dnsDomainIs(host, ".huggingface.co") || host === "huggingface.co") {
+    return proxy;
+  }
+
+  // Midjourney
+  if (dnsDomainIs(host, ".midjourney.com") || host === "midjourney.com") {
+    return proxy;
+  }
+
+  // Stability AI
+  if (dnsDomainIs(host, ".stability.ai") || host === "stability.ai") {
+    return proxy;
+  }
+
   // =========================================================================
-  // 6. GITHUB / РАЗРАБОТКА
+  // 6. GITHUB / DEV / PYPI
   // =========================================================================
 
   if (
@@ -136,42 +152,86 @@ function FindProxyForURL(url, host) {
     dnsDomainIs(host, ".githubassets.com") || host === "githubassets.com" ||
     dnsDomainIs(host, ".npmjs.com") || host === "npmjs.com" ||
     dnsDomainIs(host, ".pypi.org") || host === "pypi.org" ||
-    dnsDomainIs(host, ".files.pythonhosted.org") || host === "files.pythonhosted.org"
+    dnsDomainIs(host, ".files.pythonhosted.org") || host === "files.pythonhosted.org" ||
+    dnsDomainIs(host, ".gitlab.com") || host === "gitlab.com"
   ) {
     return proxy;
   }
 
   // =========================================================================
-  // 7. MICROSOFT / COPILOT
+  // 7. MICROSOFT / COPILOT / AZURE
   // =========================================================================
 
   if (
     host === "copilot.microsoft.com" ||
-    dnsDomainIs(host, ".copilot.microsoft.com")
+    dnsDomainIs(host, ".copilot.microsoft.com") ||
+    dnsDomainIs(host, ".azure.com") || host === "azure.com" ||
+    dnsDomainIs(host, ".azureedge.net") || host === "azureedge.net" ||
+    dnsDomainIs(host, ".microsoftonline.com") || host === "microsoftonline.com" ||
+    dnsDomainIs(host, ".windows.net") || host === "windows.net"
   ) {
     return proxy;
   }
 
   // =========================================================================
-  // 8. GOOGLE СЕРВИСЫ
+  // 8. GOOGLE / GOOGLE CLOUD / PLAY STORE
   // =========================================================================
 
   if (
     dnsDomainIs(host, ".google.com") || host === "google.com" ||
     dnsDomainIs(host, ".googleapis.com") || host === "googleapis.com" ||
-    dnsDomainIs(host, ".gstatic.com") || host === "gstatic.com"
+    dnsDomainIs(host, ".gstatic.com") || host === "gstatic.com" ||
+    dnsDomainIs(host, ".cloud.google.com") || host === "cloud.google.com" ||
+    dnsDomainIs(host, ".gcp.gvt2.com") || host === "gcp.gvt2.com" ||
+    dnsDomainIs(host, ".play.google.com") || host === "play.google.com" ||
+    dnsDomainIs(host, ".gvt1.com") || host === "gvt1.com" ||
+    dnsDomainIs(host, ".gvt2.com") || host === "gvt2.com"
   ) {
     return proxy;
   }
 
   // =========================================================================
-  // 9. ПРОЧЕЕ
+  // 9. NETFLIX
   // =========================================================================
 
-  // 2ip
   if (
-    dnsDomainIs(host, ".2ip.ru") || host === "2ip.ru"
+    dnsDomainIs(host, ".netflix.com") || host === "netflix.com" ||
+    dnsDomainIs(host, ".nflxvideo.net") || host === "nflxvideo.net" ||
+    dnsDomainIs(host, ".nflximg.net") || host === "nflximg.net" ||
+    dnsDomainIs(host, ".nflxso.net") || host === "nflxso.net"
   ) {
+    return proxy;
+  }
+
+  // =========================================================================
+  // 10. DOCKER
+  // =========================================================================
+
+  if (
+    dnsDomainIs(host, ".docker.com") || host === "docker.com" ||
+    dnsDomainIs(host, ".docker.io") || host === "docker.io" ||
+    dnsDomainIs(host, ".hub.docker.com")
+  ) {
+    return proxy;
+  }
+
+  // =========================================================================
+  // 11. CLOUDFLARE
+  // =========================================================================
+
+  if (
+    dnsDomainIs(host, ".cloudflare.com") || host === "cloudflare.com" ||
+    dnsDomainIs(host, ".cloudflare-dns.com") || host === "cloudflare-dns.com" ||
+    dnsDomainIs(host, ".cf-ipfs.com") || host === "cf-ipfs.com"
+  ) {
+    return proxy;
+  }
+
+  // =========================================================================
+  // 12. ПРОЧЕЕ
+  // =========================================================================
+
+  if (dnsDomainIs(host, ".2ip.ru") || host === "2ip.ru") {
     return proxy;
   }
 
