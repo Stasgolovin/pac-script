@@ -1,7 +1,8 @@
 // =============================================================================
 // PAC-скрипт (Proxy Auto-Configuration)
-// Версия: 2.3
+// Версия: 2.4
 // Прокси: 89.125.213.6:3128
+// Совместимость: Android, iOS, Desktop
 // =============================================================================
 
 function FindProxyForURL(url, host) {
@@ -17,38 +18,32 @@ function FindProxyForURL(url, host) {
     isPlainHostName(host) ||
     dnsDomainIs(host, ".local") ||
     dnsDomainIs(host, ".localhost") ||
-    host === "localhost" ||
-    isInNet(host, "127.0.0.0", "255.0.0.0") ||
-    isInNet(host, "10.0.0.0", "255.0.0.0") ||
-    isInNet(host, "172.16.0.0", "255.240.0.0") ||
-    isInNet(host, "192.168.0.0", "255.255.0.0") ||
-    isInNet(host, "169.254.0.0", "255.255.0.0") ||
-    isInNet(host, "100.64.0.0", "255.192.0.0")
+    host === "localhost"
   ) {
     return "DIRECT";
   }
 
   // =========================================================================
-  // 2. TELEGRAM — IP + домены
+  // 2. TELEGRAM — все домены (Android не поддерживает dnsResolve)
   // =========================================================================
-
-  var resolvedIp = dnsResolve(host);
-
-  if (resolvedIp) {
-    if (isInNet(resolvedIp, "149.154.160.0", "255.255.240.0")) return proxy;
-    if (isInNet(resolvedIp, "91.108.4.0", "255.255.252.0")) return proxy;
-    if (isInNet(resolvedIp, "91.108.8.0", "255.255.252.0")) return proxy;
-    if (isInNet(resolvedIp, "91.108.16.0", "255.255.252.0")) return proxy;
-    if (isInNet(resolvedIp, "91.108.56.0", "255.255.252.0")) return proxy;
-    if (isInNet(resolvedIp, "95.161.64.0", "255.255.240.0")) return proxy;
-    if (isInNet(resolvedIp, "67.198.55.0", "255.255.255.0")) return proxy;
-  }
 
   if (
     dnsDomainIs(host, ".telegram.org") || host === "telegram.org" ||
     dnsDomainIs(host, ".t.me") || host === "t.me" ||
     dnsDomainIs(host, ".tdesktop.com") || host === "tdesktop.com" ||
-    dnsDomainIs(host, ".telegram.me") || host === "telegram.me"
+    dnsDomainIs(host, ".telegram.me") || host === "telegram.me" ||
+    dnsDomainIs(host, ".telesco.pe") || host === "telesco.pe" ||
+    dnsDomainIs(host, ".tg.dev") || host === "tg.dev" ||
+    dnsDomainIs(host, ".telegram.dog") || host === "telegram.dog" ||
+    dnsDomainIs(host, ".tgraph.io") || host === "tgraph.io" ||
+    dnsDomainIs(host, ".graph.org") || host === "graph.org" ||
+    dnsDomainIs(host, ".telegra.ph") || host === "telegra.ph" ||
+    host === "web.telegram.org" ||
+    host === "desktop.telegram.org" ||
+    host === "mac.telegram.org" ||
+    host === "apps.telegram.org" ||
+    host === "contest.com" ||
+    host === "contest.dev"
   ) {
     return proxy;
   }
@@ -59,7 +54,8 @@ function FindProxyForURL(url, host) {
 
   if (
     dnsDomainIs(host, ".whatsapp.com") || host === "whatsapp.com" ||
-    dnsDomainIs(host, ".whatsapp.net") || host === "whatsapp.net"
+    dnsDomainIs(host, ".whatsapp.net") || host === "whatsapp.net" ||
+    dnsDomainIs(host, ".wa.me") || host === "wa.me"
   ) {
     return proxy;
   }
@@ -73,7 +69,8 @@ function FindProxyForURL(url, host) {
     dnsDomainIs(host, ".youtu.be") || host === "youtu.be" ||
     dnsDomainIs(host, ".googlevideo.com") || host === "googlevideo.com" ||
     dnsDomainIs(host, ".ytimg.com") || host === "ytimg.com" ||
-    dnsDomainIs(host, ".youtube-nocookie.com") || host === "youtube-nocookie.com"
+    dnsDomainIs(host, ".youtube-nocookie.com") || host === "youtube-nocookie.com" ||
+    dnsDomainIs(host, ".youtubei.googleapis.com")
   ) {
     return proxy;
   }
@@ -150,6 +147,7 @@ function FindProxyForURL(url, host) {
     dnsDomainIs(host, ".github.com") || host === "github.com" ||
     dnsDomainIs(host, ".githubusercontent.com") || host === "githubusercontent.com" ||
     dnsDomainIs(host, ".githubassets.com") || host === "githubassets.com" ||
+    dnsDomainIs(host, ".github.io") ||
     dnsDomainIs(host, ".npmjs.com") || host === "npmjs.com" ||
     dnsDomainIs(host, ".pypi.org") || host === "pypi.org" ||
     dnsDomainIs(host, ".files.pythonhosted.org") || host === "files.pythonhosted.org" ||
@@ -182,10 +180,7 @@ function FindProxyForURL(url, host) {
     dnsDomainIs(host, ".googleapis.com") || host === "googleapis.com" ||
     dnsDomainIs(host, ".gstatic.com") || host === "gstatic.com" ||
     dnsDomainIs(host, ".cloud.google.com") || host === "cloud.google.com" ||
-    dnsDomainIs(host, ".gcp.gvt2.com") || host === "gcp.gvt2.com" ||
-    dnsDomainIs(host, ".play.google.com") || host === "play.google.com" ||
-    dnsDomainIs(host, ".gvt1.com") || host === "gvt1.com" ||
-    dnsDomainIs(host, ".gvt2.com") || host === "gvt2.com"
+    dnsDomainIs(host, ".play.google.com") || host === "play.google.com"
   ) {
     return proxy;
   }
@@ -198,7 +193,8 @@ function FindProxyForURL(url, host) {
     dnsDomainIs(host, ".netflix.com") || host === "netflix.com" ||
     dnsDomainIs(host, ".nflxvideo.net") || host === "nflxvideo.net" ||
     dnsDomainIs(host, ".nflximg.net") || host === "nflximg.net" ||
-    dnsDomainIs(host, ".nflxso.net") || host === "nflxso.net"
+    dnsDomainIs(host, ".nflxso.net") || host === "nflxso.net" ||
+    dnsDomainIs(host, ".nflxext.com")
   ) {
     return proxy;
   }
@@ -209,8 +205,7 @@ function FindProxyForURL(url, host) {
 
   if (
     dnsDomainIs(host, ".docker.com") || host === "docker.com" ||
-    dnsDomainIs(host, ".docker.io") || host === "docker.io" ||
-    dnsDomainIs(host, ".hub.docker.com")
+    dnsDomainIs(host, ".docker.io") || host === "docker.io"
   ) {
     return proxy;
   }
@@ -231,8 +226,13 @@ function FindProxyForURL(url, host) {
   // 12. ПРОЧЕЕ
   // =========================================================================
 
+  if (dnsDomainIs(host, ".2ip.ru") || host === "2ip.ru") {
+    return proxy;
+  }
+
   // =========================================================================
   // DEFAULT — всё остальное напрямую
   // =========================================================================
+
   return "DIRECT";
 }
