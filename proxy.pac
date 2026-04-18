@@ -223,7 +223,19 @@ function FindProxyForURL(url, host) {
   }
 
   // =========================================================================
-  // 12. ПРОЧЕЕ
+  // 12. INSTAGRAM
+  // =========================================================================
+
+  if (
+    dnsDomainIs(host, ".instagram.com") || host === "instagram.com" ||
+    dnsDomainIs(host, ".cdninstagram.com") ||
+    dnsDomainIs(host, ".instagr.am") || host === "instagr.am"
+  ) {
+    return proxy;
+  }
+
+  // =========================================================================
+  // 13. ПРОЧЕЕ
   // =========================================================================
 
   if (dnsDomainIs(host, ".2ip.ru") || host === "2ip.ru") {
