@@ -43,7 +43,14 @@ function FindProxyForURL(url, host) {
     host === "mac.telegram.org" ||
     host === "apps.telegram.org" ||
     host === "contest.com" ||
-    host === "contest.dev"
+    host === "contest.dev" ||
+    // API endpoints (Android)
+    host === "api.telegram.org" ||
+    host === "apic1.telegram.org" ||
+    host === "apic2.telegram.org" ||
+    host === "apic3.telegram.org" ||
+    host === "apic4.telegram.org" ||
+    host === "apic5.telegram.org"
   ) {
     return proxy;
   }
